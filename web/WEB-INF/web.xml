@@ -20,9 +20,17 @@
         <servlet-name>EntryServlet</servlet-name>
         <servlet-class>com.kirilo.java.eshop.servlets.EntryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SearchServlet</servlet-name>
+        <servlet-class>com.kirilo.java.eshop.servlets.QueryServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>EntryServlet</servlet-name>
         <url-pattern>/start</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchServlet</servlet-name>
+        <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
     <session-config>
