@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class EntryServlet extends BaseServlet {
     @Override
-    protected void createDynamicPageBody(PrintWriter out, Statement statement) throws SQLException {
+    protected void createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException {
         String sqlString = "select distinct author from books where qty > 0";
         final ResultSet resultSet = statement.executeQuery(sqlString);
 

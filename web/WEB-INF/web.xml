@@ -21,16 +21,24 @@
         <servlet-class>com.kirilo.java.eshop.servlets.EntryServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchServlet</servlet-name>
+        <servlet-name>QueryServlet</servlet-name>
         <servlet-class>com.kirilo.java.eshop.servlets.QueryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.kirilo.java.eshop.servlets.OrderServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>EntryServlet</servlet-name>
         <url-pattern>/start</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>SearchServlet</servlet-name>
+        <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/order</url-pattern>
     </servlet-mapping>
 
     <session-config>

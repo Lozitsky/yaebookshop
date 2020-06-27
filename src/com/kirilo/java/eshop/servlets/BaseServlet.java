@@ -46,7 +46,7 @@ public abstract class BaseServlet extends HttpServlet {
                 try (Connection connection = DriverManager.getConnection(databaseURL, username, password);
                      final Statement statement = connection.createStatement()) {
 
-                    createDynamicPageBody(out, statement);
+                    createDynamicPageBody(out, statement, req);
 
                     out.println("</body></html>");
 
@@ -64,7 +64,7 @@ public abstract class BaseServlet extends HttpServlet {
         }
     }
 
-    protected abstract void createDynamicPageBody(PrintWriter out, Statement statement) throws SQLException;
+    protected abstract void createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException;
 
     protected abstract String createHeader();
 
