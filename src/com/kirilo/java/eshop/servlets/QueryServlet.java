@@ -13,7 +13,7 @@ public class QueryServlet extends BaseServlet {
     private String searchWord;
 
     @Override
-    protected void createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException {
+    protected boolean createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException {
         // Form a SQL command based on the param(s) present
         StringBuilder sqlStr = new StringBuilder();  // more efficient than String
         sqlStr.append("SELECT * FROM books WHERE qty > 0 AND (");
@@ -76,6 +76,7 @@ public class QueryServlet extends BaseServlet {
             // Hyperlink to go back to search menu
             out.println("<p><a href='start'>Back to Select Menu</a></p>");
         }
+        return false;
     }
 
     @Override

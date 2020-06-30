@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class EntryServlet extends BaseServlet {
     @Override
-    protected void createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException {
+    protected boolean createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException {
         String sqlString = "select distinct author from books where qty > 0";
         final ResultSet resultSet = statement.executeQuery(sqlString);
 
@@ -32,6 +32,7 @@ public class EntryServlet extends BaseServlet {
         out.println("<input type='reset' value='CLEAR' />");
         out.println("</form>");
 
+        return false;
     }
 
     @Override

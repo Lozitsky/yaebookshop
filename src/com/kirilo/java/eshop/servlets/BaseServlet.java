@@ -45,8 +45,14 @@ public abstract class BaseServlet extends HttpServlet {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
                 try (Connection connection = DriverManager.getConnection(databaseURL, username, password);
                      final Statement statement = connection.createStatement()) {
+                    // We shall manage our transaction (because multiple SQL statements issued)
+                    connection.setAutoCommit(false);
 
-                    createDynamicPageBody(out, statement, req);
+                    if (createDynamicPageBody(out, statement, req)) {
+                        connection.commit();
+                    } else {
+                        connection.rollback();
+                    }
 
                     out.println("</body></html>");
 
@@ -64,7 +70,7 @@ public abstract class BaseServlet extends HttpServlet {
         }
     }
 
-    protected abstract void createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException;
+    protected abstract boolean createDynamicPageBody(PrintWriter out, Statement statement, HttpServletRequest req) throws SQLException;
 
     protected abstract String createHeader();
 
