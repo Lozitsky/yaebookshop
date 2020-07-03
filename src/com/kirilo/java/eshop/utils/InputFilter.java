@@ -43,7 +43,7 @@ public final class InputFilter {
         }
         for (int i = 0; i < phoneNumber.length(); i++) {
             char c = phoneNumber.charAt(i);
-            System.out.println(c);
+//            System.out.println(c);
             if (c < '0' || c > '9') {
                 return false;
             }

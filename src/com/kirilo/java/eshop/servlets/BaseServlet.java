@@ -1,32 +1,46 @@
 package com.kirilo.java.eshop.servlets;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class BaseServlet extends HttpServlet {
-    protected String password;
+/*    protected String password;
     protected String username;
-    protected String databaseURL;
+    protected String databaseURL;*/
+    private DataSource pool;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+/*        super.init(config);
         final ServletContext servletContext = config.getServletContext();
         databaseURL = servletContext.getInitParameter("databaseURL");
         username = servletContext.getInitParameter("username");
-        password = servletContext.getInitParameter("password");
+        password = servletContext.getInitParameter("password");*/
+        try {
+            final InitialContext context = new InitialContext();
+            final Context envContext = (Context) context.lookup("java:comp/env");
+
+            pool = (DataSource) envContext.lookup("myDataSource");
+            if (pool == null) {
+                throw new ServletException("Unknown DataSource 'jdbc/mysql_ebookshop'");
+            }
+        } catch (NamingException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "Init connection error", e);
+        }
     }
 
     //    https://refactoring.guru/design-patterns/template-method/java/example
@@ -43,7 +57,8 @@ public abstract class BaseServlet extends HttpServlet {
             out.println("<h2>" + createHeader() + "</h2>");
             if (validation(req, out)) {
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-                try (Connection connection = DriverManager.getConnection(databaseURL, username, password);
+//                try (Connection connection = DriverManager.getConnection(databaseURL, username, password);
+                try (Connection connection = pool.getConnection();
                      final Statement statement = connection.createStatement()) {
                     // We shall manage our transaction (because multiple SQL statements issued)
                     connection.setAutoCommit(false);
